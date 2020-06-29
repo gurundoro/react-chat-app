@@ -1,5 +1,8 @@
 import React from 'react'
 import ChatListComponent from '../chatlist/chatList'
+import ChatViewComponent from '../chatview/chatview'
+import { withStyles, Button } from '@material-ui/core'
+import styles from './styles'
 const firebase = require("firebase")
 
 class DashboardComponent extends React.Component {
@@ -15,23 +18,36 @@ class DashboardComponent extends React.Component {
     }
 
     render(){
+
+        const { classes } = this.props
         return(
             <div>
             <div>Hello From DashboardComponent</div>
             <ChatListComponent 
-            history={this.props.history}
-            newChatBtnFn={this.newChatBtnClicked}
-            selectChatFn={this.selectChat} 
-            chat={this.state.chats}
-            email={this.state.email}
-            selectedChatIndex={this.state.selectedChat}
-             />
+                history={this.props.history}
+                newChatBtnFn={this.newChatBtnClicked}
+                selectChatFn={this.selectChat} 
+                chat={this.state.chats}
+                email={this.state.email}
+                selectedChatIndex={this.state.selectedChat}/>
+                {
+                    this.state.newChatFormVisible? 
+                    null :
+                    <ChatViewComponent
+                    user={this.state.email}
+                    chat={this.state.chats[this.state.selectedChat]}
+                    ></ChatViewComponent>
+                }
+                <Button onClick={this.signOut} className={classes.signOutBtn}>Sign Out</Button>
             </div>
         ) 
     }
 
-    selectChat = () => {
-        console.log('Selected a chat')
+    signOut = () => firebase.auth().signOut();
+
+    selectChat = (chatIndex) => {
+        console.log('index:', chatIndex)
+        this.setState({ selectedChat: chatIndex })
     }
 
     newChatBtnClicked = () => this.setState({newChatFormVisible: true, selectedChat: null})
@@ -59,4 +75,4 @@ class DashboardComponent extends React.Component {
     }
 }
 
-export default DashboardComponent
+export default withStyles(styles)(DashboardComponent)
