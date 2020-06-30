@@ -28,7 +28,7 @@ class DashboardComponent extends React.Component {
                 newChatBtnFn={this.newChatBtnClicked}
                 selectChatFn={this.selectChat} 
                 chats={this.state.chats}
-                email={this.state.email}
+                userEmail={this.state.email}
                 selectedChatIndex={this.state.selectedChat}/>
                 {
                     this.state.newChatFormVisible? 
@@ -63,13 +63,19 @@ class DashboardComponent extends React.Component {
          .collection('chats')
          .doc(docKey)
          .update({
-             message: firebase.firestore.FieldValue.arrayUnion({
+             messages: firebase.firestore.FieldValue.arrayUnion({
                  sender: this.state.email,
                  message: msg,
                  timestamp: Date.now()
              }),
              receiverHasRead:false
          })
+    }
+
+    clickedChatWhereNotSender = (chatIndex) => this.state.chats[chatIndex].messages[this.state.chats[chatIndex].messages.length - 1].sender !== this.state.email
+
+    messageRead = () => {
+        const docKey = this.buildDockey(this.state.chats[])
     }
 
    
