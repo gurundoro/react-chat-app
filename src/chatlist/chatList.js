@@ -18,7 +18,7 @@ class ChatListComponent extends React.Component{
 
         const { classes } = this.props
        
-        if(this.props.chat.length > 0) {
+        if(this.props.chats.length > 0) {
             
             return(
             <main className={classes.root}>
@@ -31,7 +31,7 @@ class ChatListComponent extends React.Component{
                </Button> 
                <List>
                {
-                   this.props.chat.map((_chat, _index) => {
+                   this.props.chats.map((_chat, _index) => {
                        return(
                         <div key={_index}>
                            <ListItem onClick={() => this.selectChat(_index)}
@@ -39,7 +39,7 @@ class ChatListComponent extends React.Component{
                            selected={this.props.selectedChatIndex === _index}
                            alignItems='flex-start'>
                              <ListItemAvatar>
-                                <Avatar alt='Remy Sharp'> {_chat.users.filter(_user => _user !== this.props.userEmail)[0].split('')[0]}</Avatar>
+                                <Avatar alt='Remy Sharp'>{_chat.users.filter(_user => _user !== this.props.userEmail)[0].split('')[0]}</Avatar>
                              </ListItemAvatar>
                              <ListItemText 
                              primary={_chat.users.filter(_user => _user !== this.props.userEmail)[0]}
